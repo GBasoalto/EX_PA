@@ -33,6 +33,16 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+            @if (Context.Session.GetInt32("UsuarioId") != null)
+            {
+                <div>
+                    Bienvenido, @Context.Session.GetString("NombreCompleto")
+                    <a asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
+                </div>
+            }
+
+
         </main>
     </div>
 

@@ -6,7 +6,7 @@ namespace GestionClientesEcoMercadoAustral.Models
     [Index(nameof(Rut), IsUnique = true)]
     public class Cliente
     {
-        public int IdCliente { get; set; }
+        public int ClienteId { get; set; }
 
         [Required]
         [MaxLength(20)]
@@ -14,14 +14,16 @@ namespace GestionClientesEcoMercadoAustral.Models
 
         public string Nombre { get; set; }
 
+        public string TipoCliente { get; set; }  // "Empresa" o "Persona Natural"
+
         public string Apellido1 { get; set; }
 
         public string Apellido2 { get; set; } 
 
         public string Direccion { get; set; }
 
-        public int CiudadId { get; set; }
+        public int ComunaId { get; set; }
 
-        public Ciudad Ciudad { get; set; }
+        public Comuna Comuna { get; set; }
     }
 }
