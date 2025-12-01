@@ -1,5 +1,4 @@
 ﻿using GestionClientesEcoMercadoAustral.Data;
-using GestionClientesEcoMercadoAustral.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,32 +19,32 @@ namespace GestionClientesEcoMercadoAustral.Controllers
             return View();
         }
 
-        // POST: Login
+        // POST: Login (AJAX)
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(LoginViewModel model)
+        public async Task<IActionResult> LoginAjax(string username, string password)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            // Validación manual
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                return Json(new { success = false, message = "Debe ingresar usuario y contraseña" });
+            }
 
             var user = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Username == model.Username && u.Password == model.Password);
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
 
             if (user == null)
             {
-                ModelState.AddModelError("", "Usuario o contraseña incorrecta");
-                return View(model);
+                return Json(new { success = false, message = "Usuario o contraseña incorrecta" });
             }
 
             // Guardar datos en sesión
             HttpContext.Session.SetInt32("UsuarioId", user.UsuarioId);
             HttpContext.Session.SetString("NombreCompleto", $"{user.Nombre} {user.Apellido1}");
 
-            // Redirigir al inicio
-            return RedirectToAction("Index", "Home");
+            return Json(new { success = true });
         }
 
-        // GET: Logout
+        // Logout
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
