@@ -7,7 +7,7 @@
 namespace GestionClientesEcoMercadoAustral.Migrations
 {
     /// <inheritdoc />
-    public partial class una : Migration
+    public partial class Una : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -124,22 +124,34 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 columns: new[] { "RegionId", "Codigo", "Nombre" },
                 values: new object[,]
                 {
-                    { 1, "01", "Región de Tarapacá" },
-                    { 2, "02", "Región de Antofagasta" },
-                    { 3, "03", "Región de Atacama" },
-                    { 4, "04", "Región de Coquimbo" },
-                    { 5, "05", "Región de Valparaíso" },
-                    { 6, "06", "Región del Libertador General Bernardo O’Higgins" },
-                    { 7, "07", "Región del Maule" },
-                    { 8, "08", "Región del Biobío" },
-                    { 9, "09", "Región de La Araucanía" },
-                    { 10, "10", "Región de Los Lagos" },
-                    { 11, "11", "Región de Aysén del General Carlos Ibáñez del Campo" },
-                    { 12, "12", "Región de Magallanes y de la Antártica Chilena" },
-                    { 13, "13", "Región Metropolitana de Santiago" },
-                    { 14, "14", "Región de Los Ríos" },
-                    { 15, "15", "Región de Arica y Parinacota" },
-                    { 16, "16", "Región de Ñuble" }
+                    { 1, "15", "Región de Arica y Parinacota" },
+                    { 2, "01", "Región de Tarapacá" },
+                    { 3, "02", "Región de Antofagasta" },
+                    { 4, "03", "Región de Atacama" },
+                    { 5, "04", "Región de Coquimbo" },
+                    { 6, "05", "Región de Valparaíso" },
+                    { 7, "13", "Región Metropolitana de Santiago" },
+                    { 8, "06", "Región del Libertador General Bernardo O’Higgins" },
+                    { 9, "07", "Región del Maule" },
+                    { 10, "16", "Región de Ñuble" },
+                    { 11, "08", "Región del Biobío" },
+                    { 12, "09", "Región de La Araucanía" },
+                    { 13, "14", "Región de Los Ríos" },
+                    { 14, "10", "Región de Los Lagos" },
+                    { 15, "11", "Región de Aysén del General Carlos Ibáñez del Campo" },
+                    { 16, "12", "Región de Magallanes y de la Antártica Chilena" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SegmentosCliente",
+                columns: new[] { "SegmentoClienteId", "Descripcion", "Estado", "NombreSegmento" },
+                values: new object[,]
+                {
+                    { 1, "Clientes mayoristas", "Vigente", "Mayorista" },
+                    { 2, "Clientes minoristas", "Vigente", "Minorista" },
+                    { 3, "Clientes restaurantes", "Vigente", "Restaurante" },
+                    { 4, "Clientes institucionales", "Vigente", "Instituciones" },
+                    { 5, "Otros tipos de clientes", "Vigente", "Otro" }
                 });
 
             migrationBuilder.InsertData(

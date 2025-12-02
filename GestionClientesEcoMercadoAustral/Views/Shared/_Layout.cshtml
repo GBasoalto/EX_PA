@@ -1,5 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@Html.AntiForgeryToken()
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -70,6 +70,26 @@
 
     <!-- SweetAlert para mensajes de éxito y errores -->
     <script>
+        function deleteCliente(clienteId, clienteNombre) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: `Se eliminaría el cliente: ${clienteNombre} (ID: ${clienteId})`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Solo mostramos un mensaje por ahora
+                    Swal.fire(
+                        'Eliminado',
+                        `Se borraría el cliente con ID: ${clienteId}`,
+                        'success'
+                    );
+
+
         document.addEventListener("DOMContentLoaded", function () {
             var success = '@TempData["Success"]';
             var error = '@TempData["Error"]';

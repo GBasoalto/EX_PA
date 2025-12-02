@@ -1,0 +1,133 @@
+﻿@model GestionClientesEcoMercadoAustral.Models.Cliente
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<h1>Crear Cliente</h1>
+<hr />
+
+@if (TempData["ErrorDetails"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorDetails"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- Tipo de Cliente -->
+            <div class="form-group mb-3">
+                <label asp-for="TipoCliente"></label>
+                <select asp-for="TipoCliente" class="form-control" id="TipoCliente">
+                    <option value="">Seleccione un tipo...</option>
+                    <option value="Persona Natural">Persona Natural</option>
+                    <option value="Empresa">Empresa</option>
+                </select>
+                <span asp-validation-for="TipoCliente" class="text-danger"></span>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group mb-3">
+                <label asp-for="Nombre"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <!-- Apellidos (solo Persona Natural) -->
+            <div id="CamposPersonaNatural" style="display:none;">
+                <div class="form-group mb-3">
+                    <label asp-for="Apellido1"></label>
+                    <input asp-for="Apellido1" class="form-control" />
+                    <span asp-validation-for="Apellido1" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Apellido2"></label>
+                    <input asp-for="Apellido2" class="form-control" />
+                    <span asp-validation-for="Apellido2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Rut -->
+            <div class="form-group mb-3">
+                <label asp-for="Rut"></label>
+                <input asp-for="Rut" class="form-control" />
+                <span asp-validation-for="Rut" class="text-danger"></span>
+            </div>
+
+            <!-- Dirección -->
+            <div class="form-group mb-3">
+                <label asp-for="Direccion"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+
+            <!-- Región -->
+            <div class="form-group mb-3">
+                <label>Región</label>
+                <select id="RegionId" class="form-control">
+                    <option value="0">Seleccione una región...</option>
+                    @foreach (var r in ViewData["Regiones"] as SelectList)
+                    {
+                        <option value="@r.Value">@r.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Comuna -->
+            <div class="form-group mb-3">
+                <label asp-for="ComunaId"></label>
+                <select asp-for="ComunaId" class="form-control" id="ComunaId">
+                    <option value="0">Seleccione una comuna...</option>
+                </select>
+                <span asp-validation-for="ComunaId" class="text-danger"></span>
+            </div>
+
+            <!-- Segmento Cliente -->
+            <div class="form-group mb-3">
+                <label asp-for="SegmentoClienteId"></label>
+                <select asp-for="SegmentoClienteId" class="form-control" asp-items="@(ViewData["SegmentoClienteId"] as SelectList)">
+                    <option value="0">Seleccione un segmento...</option>
+                </select>
+                <span asp-validation-for="SegmentoClienteId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Crear Cliente" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Mostrar/Ocultar apellidos según tipo de cliente
+        $("#TipoCliente").change(function () {
+            if ($(this).val() === "Persona Natural") {
+                $("#CamposPersonaNatural").show();
+            } else {
+                $("#CamposPersonaNatural").hide();
+            }
+        });
+
+        $(document).ready(function () {
+            $("#TipoCliente").trigger("change");
+        });
+
+        // Cargar comunas según región
+        $("#RegionId").change(function () {
+            var regionId = $(this).val();
+            $("#ComunaId").empty().append('<option value="0">Seleccione una comuna...</option>');
+
+            if (regionId && regionId != "0") {
+                $.getJSON('@Url.Action("GetComunas", "Clientes")', { regionId: regionId }, function (comunas) {
+                    $.each(comunas, function (i, c) {
+                        $("#ComunaId").append('<option value="' + parseInt(c.comunaId) + '">' + c.nombre + '</option>');
+                    });
+                });
+            }
+        });
+    </script>
+}

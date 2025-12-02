@@ -66,24 +66,35 @@ using Microsoft.EntityFrameworkCore;
             new Usuario {UsuarioId = 1 ,Nombre= "Gonzalo",Apellido1= "Basoalto", Apellido2= "Gallegos", Rut= "15.907.638-5", Username= "admin", Password= "admin123", Rol= "Administrador" },
             new Usuario {UsuarioId = 2 ,Nombre = "Juan", Apellido1 = "Perez", Apellido2 = "Lopez", Rut = "12.345.678-9", Username = "user", Password = "user123", Rol = "Vendedor" }
             );
-        
+
+        // Seed SegmentoCliente
+        modelBuilder.Entity<SegmentoCliente>().HasData(
+            new SegmentoCliente { SegmentoClienteId = 1, NombreSegmento = "Mayorista", Descripcion = "Clientes mayoristas", Estado = "Vigente" },
+            new SegmentoCliente { SegmentoClienteId = 2, NombreSegmento = "Minorista", Descripcion = "Clientes minoristas", Estado = "Vigente" },
+            new SegmentoCliente { SegmentoClienteId = 3, NombreSegmento = "Restaurante", Descripcion = "Clientes restaurantes", Estado = "Vigente" },
+            new SegmentoCliente { SegmentoClienteId = 4, NombreSegmento = "Instituciones", Descripcion = "Clientes institucionales", Estado = "Vigente" },
+            new SegmentoCliente { SegmentoClienteId = 5, NombreSegmento = "Otro", Descripcion = "Otros tipos de clientes", Estado = "Vigente" }
+        );
+
         modelBuilder.Entity<Region>().HasData(
-        new Region { RegionId = 1, Codigo = "01", Nombre = "Región de Tarapacá" },
-        new Region { RegionId = 2, Codigo = "02", Nombre = "Región de Antofagasta" },
-        new Region { RegionId = 3, Codigo = "03", Nombre = "Región de Atacama" },
-        new Region { RegionId = 4, Codigo = "04", Nombre = "Región de Coquimbo" },
-        new Region { RegionId = 5, Codigo = "05", Nombre = "Región de Valparaíso" },
-        new Region { RegionId = 6, Codigo = "06", Nombre = "Región del Libertador General Bernardo O’Higgins" },
-        new Region { RegionId = 7, Codigo = "07", Nombre = "Región del Maule" },
-        new Region { RegionId = 8, Codigo = "08", Nombre = "Región del Biobío" },
-        new Region { RegionId = 9, Codigo = "09", Nombre = "Región de La Araucanía" },
-        new Region { RegionId = 10, Codigo = "10", Nombre = "Región de Los Lagos" },
-        new Region { RegionId = 11, Codigo = "11", Nombre = "Región de Aysén del General Carlos Ibáñez del Campo" },
-        new Region { RegionId = 12, Codigo = "12", Nombre = "Región de Magallanes y de la Antártica Chilena" },
-        new Region { RegionId = 13, Codigo = "13", Nombre = "Región Metropolitana de Santiago" },
-        new Region { RegionId = 14, Codigo = "14", Nombre = "Región de Los Ríos" },
-        new Region { RegionId = 15, Codigo = "15", Nombre = "Región de Arica y Parinacota" },
-        new Region { RegionId = 16, Codigo = "16", Nombre = "Región de Ñuble" }
+        new Region { RegionId = 1, Codigo = "15", Nombre = "Región de Arica y Parinacota" },
+        new Region { RegionId = 2, Codigo = "01", Nombre = "Región de Tarapacá" },
+        new Region { RegionId = 3, Codigo = "02", Nombre = "Región de Antofagasta" },
+        new Region { RegionId = 4, Codigo = "03", Nombre = "Región de Atacama" },
+        new Region { RegionId = 5, Codigo = "04", Nombre = "Región de Coquimbo" },
+        new Region { RegionId = 6, Codigo = "05", Nombre = "Región de Valparaíso" },
+        new Region { RegionId = 7, Codigo = "13", Nombre = "Región Metropolitana de Santiago" },
+        new Region { RegionId = 8, Codigo = "06", Nombre = "Región del Libertador General Bernardo O’Higgins" },
+        new Region { RegionId = 9, Codigo = "07", Nombre = "Región del Maule" },
+        new Region { RegionId = 10, Codigo = "16", Nombre = "Región de Ñuble" },
+        new Region { RegionId = 11, Codigo = "08", Nombre = "Región del Biobío" },
+        new Region { RegionId = 12, Codigo = "09", Nombre = "Región de La Araucanía" },
+        new Region { RegionId = 13, Codigo = "14", Nombre = "Región de Los Ríos" },
+        new Region { RegionId = 14, Codigo = "10", Nombre = "Región de Los Lagos" },
+        new Region { RegionId = 15, Codigo = "11", Nombre = "Región de Aysén del General Carlos Ibáñez del Campo" },
+        new Region { RegionId = 16, Codigo = "12", Nombre = "Región de Magallanes y de la Antártica Chilena" }
+                    
+        
         );
 
 

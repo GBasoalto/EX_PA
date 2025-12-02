@@ -1979,98 +1979,98 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                         new
                         {
                             RegionId = 1,
-                            Codigo = "01",
-                            Nombre = "Región de Tarapacá"
-                        },
-                        new
-                        {
-                            RegionId = 2,
-                            Codigo = "02",
-                            Nombre = "Región de Antofagasta"
-                        },
-                        new
-                        {
-                            RegionId = 3,
-                            Codigo = "03",
-                            Nombre = "Región de Atacama"
-                        },
-                        new
-                        {
-                            RegionId = 4,
-                            Codigo = "04",
-                            Nombre = "Región de Coquimbo"
-                        },
-                        new
-                        {
-                            RegionId = 5,
-                            Codigo = "05",
-                            Nombre = "Región de Valparaíso"
-                        },
-                        new
-                        {
-                            RegionId = 6,
-                            Codigo = "06",
-                            Nombre = "Región del Libertador General Bernardo O’Higgins"
-                        },
-                        new
-                        {
-                            RegionId = 7,
-                            Codigo = "07",
-                            Nombre = "Región del Maule"
-                        },
-                        new
-                        {
-                            RegionId = 8,
-                            Codigo = "08",
-                            Nombre = "Región del Biobío"
-                        },
-                        new
-                        {
-                            RegionId = 9,
-                            Codigo = "09",
-                            Nombre = "Región de La Araucanía"
-                        },
-                        new
-                        {
-                            RegionId = 10,
-                            Codigo = "10",
-                            Nombre = "Región de Los Lagos"
-                        },
-                        new
-                        {
-                            RegionId = 11,
-                            Codigo = "11",
-                            Nombre = "Región de Aysén del General Carlos Ibáñez del Campo"
-                        },
-                        new
-                        {
-                            RegionId = 12,
-                            Codigo = "12",
-                            Nombre = "Región de Magallanes y de la Antártica Chilena"
-                        },
-                        new
-                        {
-                            RegionId = 13,
-                            Codigo = "13",
-                            Nombre = "Región Metropolitana de Santiago"
-                        },
-                        new
-                        {
-                            RegionId = 14,
-                            Codigo = "14",
-                            Nombre = "Región de Los Ríos"
-                        },
-                        new
-                        {
-                            RegionId = 15,
                             Codigo = "15",
                             Nombre = "Región de Arica y Parinacota"
                         },
                         new
                         {
-                            RegionId = 16,
+                            RegionId = 2,
+                            Codigo = "01",
+                            Nombre = "Región de Tarapacá"
+                        },
+                        new
+                        {
+                            RegionId = 3,
+                            Codigo = "02",
+                            Nombre = "Región de Antofagasta"
+                        },
+                        new
+                        {
+                            RegionId = 4,
+                            Codigo = "03",
+                            Nombre = "Región de Atacama"
+                        },
+                        new
+                        {
+                            RegionId = 5,
+                            Codigo = "04",
+                            Nombre = "Región de Coquimbo"
+                        },
+                        new
+                        {
+                            RegionId = 6,
+                            Codigo = "05",
+                            Nombre = "Región de Valparaíso"
+                        },
+                        new
+                        {
+                            RegionId = 7,
+                            Codigo = "13",
+                            Nombre = "Región Metropolitana de Santiago"
+                        },
+                        new
+                        {
+                            RegionId = 8,
+                            Codigo = "06",
+                            Nombre = "Región del Libertador General Bernardo O’Higgins"
+                        },
+                        new
+                        {
+                            RegionId = 9,
+                            Codigo = "07",
+                            Nombre = "Región del Maule"
+                        },
+                        new
+                        {
+                            RegionId = 10,
                             Codigo = "16",
                             Nombre = "Región de Ñuble"
+                        },
+                        new
+                        {
+                            RegionId = 11,
+                            Codigo = "08",
+                            Nombre = "Región del Biobío"
+                        },
+                        new
+                        {
+                            RegionId = 12,
+                            Codigo = "09",
+                            Nombre = "Región de La Araucanía"
+                        },
+                        new
+                        {
+                            RegionId = 13,
+                            Codigo = "14",
+                            Nombre = "Región de Los Ríos"
+                        },
+                        new
+                        {
+                            RegionId = 14,
+                            Codigo = "10",
+                            Nombre = "Región de Los Lagos"
+                        },
+                        new
+                        {
+                            RegionId = 15,
+                            Codigo = "11",
+                            Nombre = "Región de Aysén del General Carlos Ibáñez del Campo"
+                        },
+                        new
+                        {
+                            RegionId = 16,
+                            Codigo = "12",
+                            Nombre = "Región de Magallanes y de la Antártica Chilena"
                         });
                 });
 
@@ -2097,6 +2097,43 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     b.HasKey("SegmentoClienteId");
 
                     b.ToTable("SegmentosCliente");
+
+                    b.HasData(
+                        new
+                        {
+                            SegmentoClienteId = 1,
+                            Descripcion = "Clientes mayoristas",
+                            Estado = "Vigente",
+                            NombreSegmento = "Mayorista"
+                        },
+                        new
+                        {
+                            SegmentoClienteId = 2,
+                            Descripcion = "Clientes minoristas",
+                            Estado = "Vigente",
+                            NombreSegmento = "Minorista"
+                        },
+                        new
+                        {
+                            SegmentoClienteId = 3,
+                            Descripcion = "Clientes restaurantes",
+                            Estado = "Vigente",
+                            NombreSegmento = "Restaurante"
+                        },
+                        new
+                        {
+                            SegmentoClienteId = 4,
+                            Descripcion = "Clientes institucionales",
+                            Estado = "Vigente",
+                            NombreSegmento = "Instituciones"
+                        },
+                        new
+                        {
+                            SegmentoClienteId = 5,
+                            Descripcion = "Otros tipos de clientes",
+                            Estado = "Vigente",
+                            NombreSegmento = "Otro"
+                        });
                 });
 
             modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.Usuario", b =>

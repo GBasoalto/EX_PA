@@ -1,0 +1,129 @@
+﻿@model GestionClientesEcoMercadoAustral.Models.Cliente
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<h1 class="mb-4">Editar Cliente</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="ClienteId" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- RUT y Nombre -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Rut" class="form-label"></label>
+                    <input asp-for="Rut" class="form-control" />
+                    <span asp-validation-for="Rut" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Tipo Cliente y Segmento -->
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label asp-for="TipoCliente" class="form-label"></label>
+                    <select asp-for="TipoCliente" class="form-select" id="tipoClienteSelect">
+                        <option value="Persona">Persona</option>
+                        <option value="Empresa">Empresa</option>
+                    </select>
+                    <span asp-validation-for="TipoCliente" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="SegmentoClienteId" class="form-label"></label>
+                    <select asp-for="SegmentoClienteId" class="form-select" asp-items="ViewBag.SegmentoClienteId"></select>
+                    <span asp-validation-for="SegmentoClienteId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Apellidos (solo si es Persona) -->
+            <div class="row g-3 mt-2" id="apellidosRow">
+                <div class="col-md-6">
+                    <label asp-for="Apellido1" class="form-label"></label>
+                    <input asp-for="Apellido1" class="form-control" />
+                    <span asp-validation-for="Apellido1" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Apellido2" class="form-label"></label>
+                    <input asp-for="Apellido2" class="form-control" />
+                    <span asp-validation-for="Apellido2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Dirección y Comuna -->
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label asp-for="Direccion" class="form-label"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ComunaId" class="form-label"></label>
+                    <select asp-for="ComunaId" class="form-select" asp-items="ViewBag.ComunaId"></select>
+                    <span asp-validation-for="ComunaId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Usuario que registró -->
+            @if (ViewBag.RolUsuario == "Administrador")
+            {
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label asp-for="UsuarioId" class="form-label"></label>
+                        <select asp-for="UsuarioId" class="form-select" asp-items="ViewBag.UsuarioId"></select>
+                        <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Usuario que registró</label>
+                        <input type="text" class="form-control"
+                               value="@Model.Usuario?.Rut + " - " + @Model.Usuario?.Nombre" readonly />
+                    </div>
+                </div>
+            }
+
+            <!-- Botones -->
+            <div class="mt-4 d-flex gap-2">
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Ocultar/mostrar apellidos según TipoCliente
+        function toggleApellidos() {
+            var tipo = document.getElementById('tipoClienteSelect').value;
+            var row = document.getElementById('apellidosRow');
+            if (tipo === 'Empresa') {
+                row.style.display = 'none';
+                document.getElementById('Apellido1').value = '';
+                document.getElementById('Apellido2').value = '';
+            } else {
+                row.style.display = 'flex';
+            }
+        }
+
+        document.getElementById('tipoClienteSelect').addEventListener('change', toggleApellidos);
+
+        // Inicializar al cargar la página
+        toggleApellidos();
+    </script>
+}
