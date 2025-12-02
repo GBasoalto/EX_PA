@@ -18,11 +18,48 @@ using Microsoft.EntityFrameworkCore;
 
         public DbSet<Comuna> Comunas { get; set; }
 
-        
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        // ====== Usuario - Cliente (1:N) ======
+        modelBuilder.Entity<Cliente>()
+            .HasOne(c => c.Usuario)
+            .WithMany(u => u.Clientes)
+            .HasForeignKey(c => c.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict); // evita borrar usuario si tiene clientes
+
+        // ====== SegmentoCliente - Cliente (1:N) ======
+        modelBuilder.Entity<Cliente>()
+            .HasOne(c => c.SegmentoCliente)
+            .WithMany(s => s.Clientes)
+            .HasForeignKey(c => c.SegmentoClienteId)
+            .OnDelete(DeleteBehavior.Restrict); // evita borrar segmento si tiene clientes
+
+        // ====== Region - Comuna (1:N) ======
+        modelBuilder.Entity<Comuna>()
+            .HasOne(c => c.Region)
+            .WithMany(r => r.Comunas)
+            .HasForeignKey(c => c.RegionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // ====== Cliente - Comuna (N:1) ======
+        modelBuilder.Entity<Cliente>()
+            .HasOne(c => c.Comuna)
+            .WithMany()
+            .HasForeignKey(c => c.ComunaId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // ====== Índices únicos ======
+        modelBuilder.Entity<Usuario>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
+
+        modelBuilder.Entity<Cliente>()
+            .HasIndex(c => c.Rut)
+            .IsUnique();
+   
+    
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Usuario>().HasData(

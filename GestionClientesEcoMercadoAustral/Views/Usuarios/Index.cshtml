@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GestionClientesEcoMercadoAustral.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<h1 class="mb-4 text-center">Gestión de Usuarios</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Crear Nuevo Usuario
+    </a>
+</div>
+
+<table class="table table-striped table-hover table-bordered shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.Apellido1)</th>
+            <th>@Html.DisplayNameFor(model => model.Apellido2)</th>
+            <th>@Html.DisplayNameFor(model => model.Rut)</th>
+            <th>@Html.DisplayNameFor(model => model.Username)</th>
+            <th>@Html.DisplayNameFor(model => model.Rol)</th>
+            <th style="width:180px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Apellido1</td>
+                <td>@item.Apellido2</td>
+                <td>@item.Rut</td>
+                <td>@item.Username</td>
+                <td>@item.Rol</td>
+                <td class="text-center d-flex justify-content-center gap-2">
+                    <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-primary">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-info text-white">Detalles</a>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@item.UsuarioId)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Formulario oculto para eliminación segura *@
+<form id="deleteForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmDelete(usuarioId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = document.getElementById('deleteForm');
+                    form.action = '/Usuarios/Delete/' + usuarioId;
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

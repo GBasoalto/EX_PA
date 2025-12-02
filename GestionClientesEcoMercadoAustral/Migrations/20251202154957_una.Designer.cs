@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionClientesEcoMercadoAustral.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251201133532_una")]
+    [Migration("20251202154957_una")]
     partial class una
     {
         /// <inheritdoc />
@@ -56,9 +56,15 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("SegmentoClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("TipoCliente")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("ClienteId");
 
@@ -66,6 +72,10 @@ namespace GestionClientesEcoMercadoAustral.Migrations
 
                     b.HasIndex("Rut")
                         .IsUnique();
+
+                    b.HasIndex("SegmentoClienteId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Clientes");
                 });
@@ -2127,9 +2137,12 @@ namespace GestionClientesEcoMercadoAustral.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UsuarioId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Usuarios");
 
@@ -2163,10 +2176,26 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     b.HasOne("GestionClientesEcoMercadoAustral.Models.Comuna", "Comuna")
                         .WithMany()
                         .HasForeignKey("ComunaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestionClientesEcoMercadoAustral.Models.SegmentoCliente", "SegmentoCliente")
+                        .WithMany("Clientes")
+                        .HasForeignKey("SegmentoClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GestionClientesEcoMercadoAustral.Models.Usuario", "Usuario")
+                        .WithMany("Clientes")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Comuna");
+
+                    b.Navigation("SegmentoCliente");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.Comuna", b =>
@@ -2174,7 +2203,7 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     b.HasOne("GestionClientesEcoMercadoAustral.Models.Region", "Region")
                         .WithMany("Comunas")
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Region");
@@ -2183,6 +2212,16 @@ namespace GestionClientesEcoMercadoAustral.Migrations
             modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.Region", b =>
                 {
                     b.Navigation("Comunas");
+                });
+
+            modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.SegmentoCliente", b =>
+                {
+                    b.Navigation("Clientes");
+                });
+
+            modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.Usuario", b =>
+                {
+                    b.Navigation("Clientes");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,66 @@
+﻿@model GestionClientesEcoMercadoAustral.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h1 class="mb-4 text-center">Editar Usuario</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Detalles del Usuario</h5>
+
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="UsuarioId" />
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Ingrese nombre" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido1" class="form-label"></label>
+                        <input asp-for="Apellido1" class="form-control" placeholder="Ingrese primer apellido" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido2" class="form-label"></label>
+                        <input asp-for="Apellido2" class="form-control" placeholder="Ingrese segundo apellido" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Rut" class="form-label"></label>
+                        <input asp-for="Rut" class="form-control" placeholder="Ingrese RUT" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label"></label>
+                        <input asp-for="Username" class="form-control" placeholder="Ingrese nombre de usuario" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nueva contraseña (opcional)</label>
+                        <input type="password" name="Password" class="form-control"
+                               placeholder="Dejar en blanco para mantener la actual" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Rol" class="form-label"></label>
+                        <select asp-for="Rol" class="form-select">
+                            <option value="">Seleccione un rol...</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Vendedor">Vendedor</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

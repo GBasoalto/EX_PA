@@ -25,5 +25,14 @@ namespace GestionClientesEcoMercadoAustral.Models
         public int ComunaId { get; set; }
 
         public Comuna Comuna { get; set; }
+
+        // RELACIÓN CON USUARIO
+        public int UsuarioId { get; set; }        
+        public Usuario Usuario { get; set; }
+
+        //RELACION CON SEGMENTO
+        public int SegmentoClienteId { get; set; }
+        public SegmentoCliente SegmentoCliente { get; set; }
+
     }
 }

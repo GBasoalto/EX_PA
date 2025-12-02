@@ -51,7 +51,7 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rut = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -77,7 +77,7 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                         column: x => x.RegionId,
                         principalTable: "Regiones",
                         principalColumn: "RegionId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +92,9 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ComunaId = table.Column<int>(type: "int", nullable: false)
+                    ComunaId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    SegmentoClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,7 +104,19 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                         column: x => x.ComunaId,
                         principalTable: "Comunas",
                         principalColumn: "ComunaId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Clientes_SegmentosCliente_SegmentoClienteId",
+                        column: x => x.SegmentoClienteId,
+                        principalTable: "SegmentosCliente",
+                        principalColumn: "SegmentoClienteId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Clientes_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "UsuarioId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -465,9 +479,25 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clientes_SegmentoClienteId",
+                table: "Clientes",
+                column: "SegmentoClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_UsuarioId",
+                table: "Clientes",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comunas_RegionId",
                 table: "Comunas",
                 column: "RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_Username",
+                table: "Usuarios",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -477,13 +507,13 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "Clientes");
 
             migrationBuilder.DropTable(
+                name: "Comunas");
+
+            migrationBuilder.DropTable(
                 name: "SegmentosCliente");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Comunas");
 
             migrationBuilder.DropTable(
                 name: "Regiones");

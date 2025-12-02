@@ -9,5 +9,8 @@
         public string Descripcion { get; set; }
 
         public string Estado { get; set; } // Vigente, No Vigente
+
+        // Colección de clientes asociados
+        public ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
     }
 }

@@ -40,6 +40,7 @@ namespace GestionClientesEcoMercadoAustral.Controllers
             // Guardar datos en sesión
             HttpContext.Session.SetInt32("UsuarioId", user.UsuarioId);
             HttpContext.Session.SetString("NombreCompleto", $"{user.Nombre} {user.Apellido1}");
+            HttpContext.Session.SetString("Rol", user.Rol);
 
             return Json(new { success = true });
         }

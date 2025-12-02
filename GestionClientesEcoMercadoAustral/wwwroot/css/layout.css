@@ -1,0 +1,182 @@
+﻿/* ======= COLORES BASE ======= */
+:root {
+    --header-bg: #8D6E63;
+    --sidebar-bg: #F2EDE9;
+    --content-bg: #FAF8F6;
+    --text-dark: #4E342E;
+    --hover-bg: #A1887F;
+}
+
+/* ======= BODY ======= */
+body {
+    background-color: var(--content-bg);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-dark);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ======= HEADER FIJO ======= */
+header.top-header {
+    background-color: var(--header-bg);
+    padding: 12px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+}
+
+/* Usuario dropdown */
+.user-button.dropdown-toggle {
+    color: white !important;
+    font-weight: 500;
+}
+
+/* ======= MAIN WRAPPER ======= */
+.main-wrapper {
+    display: flex;
+    flex: 1 0 auto;
+}
+
+/* ======= SIDEBAR FIJO ======= */
+.sidebar {
+    width: 230px;
+    background-color: var(--sidebar-bg);
+    min-height: calc(100vh - 60px); /* altura header */
+    padding-top: 20px;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    border-right: 1px solid #d7ccc8;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+    .sidebar a {
+        color: var(--text-dark);
+        display: block;
+        padding: 12px 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+        .sidebar a:hover {
+            background-color: var(--hover-bg);
+            color: white;
+        }
+
+/* ======= CONTENIDO ======= */
+.content {
+    margin-left: 230px; /* espacio para sidebar */
+    margin-top: 60px; /* espacio para header */
+    padding: 30px;
+    box-sizing: border-box;
+    width: calc(100% - 230px);
+}
+
+/* ======= FOOTER STICKY ======= */
+footer.footer {
+    background-color: var(--sidebar-bg);
+    border-top: 1px solid #d7ccc8;
+    text-align: center;
+    padding: 12px;
+    color: var(--text-dark);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* ======= LOGO ======= */
+.header-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ======= BOTONES ======= */
+.btn-primary {
+    background-color: #8D6E63;
+    border-color: #8D6E63;
+}
+
+    .btn-primary:hover {
+        background-color: #A1887F;
+        border-color: #A1887F;
+    }
+
+.btn-success {
+    background-color: #6B8E23;
+    border-color: #6B8E23;
+}
+
+    .btn-success:hover {
+        background-color: #7FAF3F;
+        border-color: #7FAF3F;
+    }
+
+/* ======= FORMULARIOS ======= */
+.form-control, .form-select {
+    border-radius: 6px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* ======= TABLAS ======= */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+    .table th, .table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    .table th {
+        background-color: var(--header-bg);
+        color: white;
+        font-weight: 600;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #e0e0e0; /* gris claro */
+    color: #333; /* texto oscuro */
+    /*background-color: var(--hover-bg);
+    color: white;*/
+}
+
+/* ======= SCROLLBAR PERSONALIZADO ======= */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #f2f2f2;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #c4b7b0;
+    border-radius: 3px;
+}
