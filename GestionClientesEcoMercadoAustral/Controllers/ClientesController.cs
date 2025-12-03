@@ -28,7 +28,7 @@ namespace GestionClientesEcoMercadoAustral.Controllers
 
             if (usuarioId == null)
             {
-                TempData["Error"] = "Debe iniciar sesión para ver los clientes.";
+                
                 return RedirectToAction("Index", "Login");
             }
 

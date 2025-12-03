@@ -22,6 +22,14 @@ namespace GestionClientesEcoMercadoAustral.Controllers
         // GET: SegmentoClientes
         public async Task<IActionResult> Index()
         {
+            if (!EsAdminOVendedor())
+            {
+                
+                return RedirectToAction("Index", "Login"); 
+            }
+
+            
+
             return View(await _context.SegmentosCliente.ToListAsync());
         }
 
@@ -138,5 +146,20 @@ namespace GestionClientesEcoMercadoAustral.Controllers
         {
             return _context.SegmentosCliente.Any(e => e.SegmentoClienteId == id);
         }
+
+        private bool EsAdminOVendedor()
+        {
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+            var rol = HttpContext.Session.GetString("Rol");
+
+            if (!usuarioId.HasValue)
+                return false;
+
+            if (rol == "Administrador" || rol == "Vendedor")
+                return true;
+
+            return false;
+        }
+
     }
 }

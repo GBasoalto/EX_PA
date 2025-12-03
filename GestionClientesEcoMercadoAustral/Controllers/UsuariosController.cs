@@ -20,6 +20,13 @@ namespace GestionClientesEcoMercadoAustral.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
+            if (!EsAdministrador())
+            {
+                
+                return RedirectToAction("Index", "Login"); // O Login si prefieres
+            }
+
+            
             return View(await _context.Usuarios.ToListAsync());
         }
 
@@ -177,5 +184,17 @@ namespace GestionClientesEcoMercadoAustral.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        private bool EsAdministrador()
+        {
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+            var rol = HttpContext.Session.GetString("Rol");
+
+            if (!usuarioId.HasValue || rol != "Administrador")
+                return false;
+
+            return true;
+        }
+
     }
+
 }

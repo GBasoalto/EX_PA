@@ -46,10 +46,16 @@
         <aside class="sidebar">
             <ul class="menu">
                 <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
-                <li><a asp-controller="Usuarios" asp-action="Index">Gestionar Usuarios</a></li>
+                    @if (HttpContextAccessor?.HttpContext?.Session?.GetString("Rol") == "Administrador")
+                    {
+                        <li><a asp-controller="Usuarios" asp-action="Index">Gestionar Usuarios</a></li>
+                    }
                 <li><a asp-controller="Clientes" asp-action="Index">Clientes</a></li>
                 <li><a asp-controller="SegmentoClientes" asp-action="Index">Segmento de clientes</a></li>
-                <li><a asp-controller="Reportes" asp-action="Index">Reportes</a></li>
+                @if (HttpContextAccessor?.HttpContext?.Session?.GetString("Rol") == "Administrador")
+                    {
+                        <li><a asp-controller="Reportes" asp-action="Index">Reportes</a></li>
+                    }
             </ul>
         </aside>
 

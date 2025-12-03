@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Clientes";
+    var rolUsuario = Context.Session.GetString("Rol");
 }
 
 <h1 class="mb-4">Lista de Clientes</h1>
@@ -41,7 +42,10 @@
                 <td class="text-center">
                     <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-sm btn-warning me-1">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-sm btn-info text-white me-1">Detalles</a>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@item.ClienteId)">Eliminar</button>
+                    @if (rolUsuario == "Administrador")
+                    {
+                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@item.ClienteId)">Eliminar</button>
+                    }
                 </td>
             </tr>
         }

@@ -13,6 +13,15 @@ public class ReportesController : Controller
 
     public async Task<IActionResult> Index()
     {
+        if (!EsAdministrador())
+        {
+            
+            return RedirectToAction("Index", "Login"); // O Login si prefieres
+        }
+
+
+
+
         // --- REPORTE POR COMUNA ---
         var datos = await _context.Clientes
             .Include(c => c.Comuna)
@@ -54,6 +63,17 @@ public class ReportesController : Controller
 
         return View(reporteComunas);
     }
+    private bool EsAdministrador()
+    {
+        var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+        var rol = HttpContext.Session.GetString("Rol");
+
+        if (!usuarioId.HasValue || rol != "Administrador")
+            return false;
+
+        return true;
+    }
+
 }
 
 public class ReporteComuna
@@ -67,3 +87,4 @@ public class ReporteUsuario
     public string Usuario { get; set; }
     public int Cantidad { get; set; }
 }
+

@@ -15,6 +15,21 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+        if (!usuarioId.HasValue)
+            return RedirectToAction("Index", "Login");
+
+        var rol = HttpContext.Session.GetString("Rol");
+
+        if (rol == "Vendedor")
+            return RedirectToAction("DashboardVendedor");
+
+        if (rol != "Administrador")
+            return RedirectToAction("Index", "Login");
+
+
+
+
         // Total de clientes
         int totalClientes = _context.Clientes.Count();
 
@@ -66,6 +81,7 @@ public class HomeController : Controller
         ViewBag.ClientesPorTipo = clientesPorTipo;
 
 
+
         return View();
     }
 
@@ -73,25 +89,31 @@ public class HomeController : Controller
     // En HomeController.cs
     public IActionResult DashboardVendedor()
     {
-        // Verificar que esté logueado
         var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
-        if (!usuarioId.HasValue)
+        var rol = HttpContext.Session.GetString("Rol");
+
+        if (!usuarioId.HasValue || rol != "Vendedor")
         {
             return RedirectToAction("Index", "Login");
         }
 
-        // Verificar que sea Vendedor
-        var rol = HttpContext.Session.GetString("Rol");
-        if (rol != "Vendedor")
-        {
-            // Redirigir al dashboard correspondiente según su rol
-            return rol == "Administrador"
-                ? RedirectToAction("Index", "Home")
-                : RedirectToAction("Index", "Login");
-        }
+        // Cantidad de clientes asignados a este vendedor
+        var clientesAsignados = _context.Clientes
+            .Where(c => c.UsuarioId == usuarioId.Value) // Asumiendo que Cliente tiene UsuarioId
+            .Count();
 
-        // Tu lógica para el dashboard del vendedor
+        // Último cliente agregado por este vendedor
+        var ultimoCliente = _context.Clientes
+            .Where(c => c.UsuarioId == usuarioId.Value)
+            .OrderByDescending(c => c.ClienteId)
+            .Select(c => new { c.Nombre, c.Apellido1 })
+            .FirstOrDefault();
+
+        ViewBag.ClientesAsignados = clientesAsignados;
+        ViewBag.UltimoCliente = ultimoCliente;
+
         return View();
     }
+
 
 }

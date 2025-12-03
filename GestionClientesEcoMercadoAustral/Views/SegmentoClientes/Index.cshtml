@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<GestionClientesEcoMercadoAustral.Models.SegmentoCliente>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Segmentos de Cliente";
@@ -40,8 +42,6 @@
                 }
             </td>
 
-            
-
             <td>
     <div class="d-flex justify-content-center gap-2">
 
@@ -50,13 +50,15 @@
            asp-action="Edit" asp-route-id="@item.SegmentoClienteId">
             <i class="bi bi-pencil-square"></i> Editar
         </a>
-
+    @if (HttpContextAccessor?.HttpContext?.Session?.GetString("Rol") == "Administrador")
+        {
         <button class="btn btn-sm px-3 btnDelete"
                 style="background-color:#b22222; color:white; border:none;"
                 data-id="@item.SegmentoClienteId"
                 data-nombre="@item.NombreSegmento">
             <i class="bi bi-trash"></i> Eliminar
         </button>
+        }
 
     </div>
 </td>
