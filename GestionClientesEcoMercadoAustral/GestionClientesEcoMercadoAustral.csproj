@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\SegmentoClientes\Delete.cshtml" />
+    <Content Remove="Views\SegmentoClientes\Details.cshtml" />
     <Content Remove="Views\Usuarios\Delete.cshtml" />
     <Content Remove="wwwroot\css\login.cs" />
   </ItemGroup>

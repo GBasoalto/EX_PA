@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Dashboard Vendedor";
+    var rol = Context.Session.GetString("Rol");
+    if (rol != "Vendedor")
+    {
+        <text>
+            <script>
+                window.location.href = "/Login/Index";
+            </script>
+        </text>
+    }
+
+    var ultimoCliente = ViewBag.UltimoCliente;
+}
+
+<h2 class="mb-4">Dashboard - Vendedor</h2>
+
+<div class="row g-4">
+
+    <!-- Clientes asignados -->
+    <div class="col-md-4">
+        <div class="card text-white bg-primary shadow-sm h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <span>Clientes Asignados</span>
+                <i class="bi bi-people-fill fs-3"></i>
+            </div>
+            <div class="card-body">
+                <h3 class="fw-bold">@ViewBag.ClientesAsignados</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Último cliente agregado -->
+    <div class="col-md-4">
+        <div class="card text-white bg-success shadow-sm h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <span>Último Cliente</span>
+                <i class="bi bi-person-fill fs-3"></i>
+            </div>
+            <div class="card-body">
+                @if (ultimoCliente != null)
+                {
+                    <h5>@ultimoCliente.Nombre @ultimoCliente.Apellido1</h5>
+                }
+                else
+                {
+                    <span>No hay clientes asignados aún</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Acciones rápidas (opcional) -->
+    <div class="col-md-4">
+        <div class="card text-white bg-warning shadow-sm h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <span>Acciones</span>
+                <i class="bi bi-gear-fill fs-3"></i>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-center">
+                <a class="btn btn-light mb-2" href="/Clientes/Create">
+                    <i class="bi bi-plus-circle"></i> Agregar Cliente
+                </a>
+                <a class="btn btn-light" href="/Clientes/Index">
+                    <i class="bi bi-list-ul"></i> Ver Mis Clientes
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

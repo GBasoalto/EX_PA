@@ -64,7 +64,8 @@ using Microsoft.EntityFrameworkCore;
 
         modelBuilder.Entity<Usuario>().HasData(
             new Usuario {UsuarioId = 1 ,Nombre= "Gonzalo",Apellido1= "Basoalto", Apellido2= "Gallegos", Rut= "15.907.638-5", Username= "admin", Password= "admin123", Rol= "Administrador" },
-            new Usuario {UsuarioId = 2 ,Nombre = "Juan", Apellido1 = "Perez", Apellido2 = "Lopez", Rut = "12.345.678-9", Username = "user", Password = "user123", Rol = "Vendedor" }
+            new Usuario {UsuarioId = 2 ,Nombre = "Juan", Apellido1 = "Perez", Apellido2 = "Lopez", Rut = "12.345.678-9", Username = "user", Password = "user123", Rol = "Vendedor" },
+            new Usuario {UsuarioId = 3, Nombre = "Johanna", Apellido1 = "Morales", Apellido2 = "Gajardo", Rut = "9.876.543-1", Username = "JMorales", Password = "user123", Rol = "Vendedor" }
             );
 
         // Seed SegmentoCliente
@@ -75,6 +76,7 @@ using Microsoft.EntityFrameworkCore;
             new SegmentoCliente { SegmentoClienteId = 4, NombreSegmento = "Instituciones", Descripcion = "Clientes institucionales", Estado = "Vigente" },
             new SegmentoCliente { SegmentoClienteId = 5, NombreSegmento = "Otro", Descripcion = "Otros tipos de clientes", Estado = "Vigente" }
         );
+
 
         modelBuilder.Entity<Region>().HasData(
         new Region { RegionId = 1, Codigo = "15", Nombre = "Región de Arica y Parinacota" },
@@ -444,6 +446,47 @@ using Microsoft.EntityFrameworkCore;
         new Comuna { ComunaId = 323, Nombre = "Antártica", RegionId = 16 }
         );
 
+
+
+
+        // Seed de Clientes
+        modelBuilder.Entity<Cliente>().HasData(
+            new Cliente
+            {
+                ClienteId = 1,
+                Rut = "12345678-9",
+                Nombre = "Juan",
+                Apellido1 = "Pérez",
+                Apellido2 = "González",
+                TipoCliente = "Persona Natural",
+                Direccion = "Calle Falsa 123",
+                ComunaId = 1,
+                UsuarioId = 1,
+                SegmentoClienteId = 1
+            },
+            new Cliente
+            {
+                ClienteId = 2,
+                Rut = "98765432-1",
+                Nombre = "Empresa XYZ",
+                TipoCliente = "Empresa",
+                Direccion = "Avenida Siempre Viva 456",
+                ComunaId = 2,
+                UsuarioId = 2,
+                SegmentoClienteId = 2
+            },
+            new Cliente
+            {
+                ClienteId = 3,
+                Rut = "1245789-4",
+                Nombre = "El pollo farsante",
+                TipoCliente = "Empresa",
+                Direccion = "Cumpeo",
+                ComunaId = 2,
+                UsuarioId = 2,
+                SegmentoClienteId = 3
+            }
+        );
     }
 }
 

@@ -93,6 +93,14 @@ namespace GestionClientesEcoMercadoAustral.Controllers
 
             cliente.UsuarioId = usuarioId.Value;
 
+            if (_context.Clientes.Any(c => c.Rut == cliente.Rut))
+            {
+                ModelState.AddModelError("Rut", "Ya existe un cliente con este RUT");
+                CargarViewData(cliente);
+                return View(cliente);
+            }
+
+
             if (!string.IsNullOrWhiteSpace(cliente.TipoCliente) && cliente.TipoCliente.Trim() == "Empresa")
             {
                 cliente.Apellido1 = string.Empty;
@@ -112,6 +120,12 @@ namespace GestionClientesEcoMercadoAustral.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            CargarViewData(cliente);
+            return View(cliente);
+        }
+
+        private void CargarViewData(Cliente cliente)
+        {
             int regionId = cliente.ComunaId != 0
                 ? _context.Comunas.Where(c => c.ComunaId == cliente.ComunaId).Select(c => c.RegionId).FirstOrDefault()
                 : 0;
@@ -119,8 +133,6 @@ namespace GestionClientesEcoMercadoAustral.Controllers
             ViewData["Regiones"] = new SelectList(_context.Regiones, "RegionId", "Nombre", regionId);
             ViewData["ComunaId"] = new SelectList(_context.Comunas.Where(c => c.RegionId == regionId), "ComunaId", "Nombre", cliente.ComunaId);
             ViewData["SegmentoClienteId"] = new SelectList(_context.SegmentosCliente, "SegmentoClienteId", "NombreSegmento", cliente.SegmentoClienteId);
-
-            return View(cliente);
         }
 
         // GET: Clientes/Edit/5

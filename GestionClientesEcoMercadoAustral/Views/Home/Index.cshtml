@@ -1,8 +1,138 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    var rol = Context.Session.GetString("Rol");
+    if (rol != "Administrador")
+    {
+        <text>
+            <script>
+                window.location.href = "/Login/Index";
+            </script>
+        </text>
+    }
+
+    var ultimo = ViewBag.UltimoCliente;
+    var usuarioTop = ViewBag.UsuarioTop;
+    var clientesRegion = ViewBag.ClientesPorRegion as IEnumerable<dynamic>;
+    var clientesTipo = ViewBag.ClientesPorTipo as IEnumerable<dynamic>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="mb-4">Dashboard - Admin</h2>
+
+<div class="row">
+
+    <!-- Total Clientes -->
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total de Clientes</div>
+            <div class="card-body">
+                <h3>@ViewBag.TotalClientes</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Último Cliente -->
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Último Cliente Registrado</div>
+            <div class="card-body">
+                @if (ultimo != null)
+                {
+                    <h5>@ultimo.Nombre @ultimo.Apellido1</h5>
+                }
+                else
+                {
+                    <span>No hay clientes aún</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Usuario con más clientes -->
+    <div class="col-md-3">
+        <div class="card text-dark bg-warning mb-3">
+            <div class="card-header">Usuario con más registros</div>
+            <div class="card-body">
+                @if (usuarioTop != null)
+                {
+                    <h5>@usuarioTop.NombreCompleto</h5>
+                    <small>@usuarioTop.Cantidad clientes</small>
+                }
+                else
+                {
+                    <span>No hay registros</span>
+                }
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<div class="row mt-4">
+    <!-- Clientes por Región -->
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">Clientes por Región</div>
+            <div class="card-body">
+                <canvas id="graficoRegiones"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clientes por Tipo -->
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">Clientes por Tipo</div>
+            <div class="card-body">
+                <canvas id="graficoTipos"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Datos para Regiones
+        var regiones = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                    clientesRegion?.Select(r => (string)r.Region)
+            ));
+    var cantidadesRegion = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                clientesRegion?.Select(r => (int)r.Cantidad)
+        ));
+
+    // Datos para Tipos
+    var tipos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                clientesTipo?.Select(t => (string)t.Tipo)
+        ));
+    var cantidadesTipo = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                clientesTipo?.Select(t => (int)t.Cantidad)
+        ));
+
+    // Gráfico Regiones
+    var ctxR = document.getElementById('graficoRegiones');
+    new Chart(ctxR, {
+        type: 'pie',
+        data: {
+            labels: regiones,
+            datasets: [{
+                data: cantidadesRegion,
+                backgroundColor: ['#007bff','#28a745','#ffc107','#dc3545','#6c757d']
+            }]
+        }
+    });
+
+        // Gráfico Tipos
+        var ctxT = document.getElementById('graficoTipos');
+        new Chart(ctxT, {
+            type: 'pie',
+            data: {
+                labels: tipos,
+                datasets: [{
+                    data: cantidadesTipo,
+                    backgroundColor: ['#17a2b8','#ffc107','#dc3545','#6f42c1']
+                }]
+            }
+        });
+    </script>
+}

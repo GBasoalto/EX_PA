@@ -18,18 +18,18 @@
 
             <!-- Tipo de Cliente -->
             <div class="form-group mb-3">
-                <label asp-for="TipoCliente"></label>
+                <label asp-for="TipoCliente">Tipo de Cliente</label>
                 <select asp-for="TipoCliente" class="form-control" id="TipoCliente">
                     <option value="">Seleccione un tipo...</option>
-                    <option value="Persona Natural">Persona Natural</option>
-                    <option value="Empresa">Empresa</option>
+                    <option value="Persona Natural" selected="@(Model?.TipoCliente == "Persona Natural" ? "selected" : null)">Persona Natural</option>
+                    <option value="Empresa" selected="@(Model?.TipoCliente == "Empresa" ? "selected" : null)">Empresa</option>
                 </select>
                 <span asp-validation-for="TipoCliente" class="text-danger"></span>
             </div>
 
             <!-- Nombre -->
             <div class="form-group mb-3">
-                <label asp-for="Nombre"></label>
+                <label asp-for="Nombre">Nombre del Cliente</label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
@@ -37,12 +37,12 @@
             <!-- Apellidos (solo Persona Natural) -->
             <div id="CamposPersonaNatural" style="display:none;">
                 <div class="form-group mb-3">
-                    <label asp-for="Apellido1"></label>
+                    <label asp-for="Apellido1">Primer Apellido</label>
                     <input asp-for="Apellido1" class="form-control" />
                     <span asp-validation-for="Apellido1" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label asp-for="Apellido2"></label>
+                    <label asp-for="Apellido2">Segundo Apellido</label>
                     <input asp-for="Apellido2" class="form-control" />
                     <span asp-validation-for="Apellido2" class="text-danger"></span>
                 </div>
@@ -65,19 +65,15 @@
             <!-- Región -->
             <div class="form-group mb-3">
                 <label>Región</label>
-                <select id="RegionId" class="form-control">
+                <select id="RegionId" class="form-control" asp-items="@(ViewData["Regiones"] as SelectList)">
                     <option value="0">Seleccione una región...</option>
-                    @foreach (var r in ViewData["Regiones"] as SelectList)
-                    {
-                        <option value="@r.Value">@r.Text</option>
-                    }
                 </select>
             </div>
 
             <!-- Comuna -->
             <div class="form-group mb-3">
-                <label asp-for="ComunaId"></label>
-                <select asp-for="ComunaId" class="form-control" id="ComunaId">
+                <label asp-for="ComunaId">Comuna</label>
+                <select asp-for="ComunaId" class="form-control" id="ComunaId" asp-items="@(ViewData["ComunaId"] as SelectList)">
                     <option value="0">Seleccione una comuna...</option>
                 </select>
                 <span asp-validation-for="ComunaId" class="text-danger"></span>
@@ -85,7 +81,7 @@
 
             <!-- Segmento Cliente -->
             <div class="form-group mb-3">
-                <label asp-for="SegmentoClienteId"></label>
+                <label asp-for="SegmentoClienteId">Segmento de Clientes</label>
                 <select asp-for="SegmentoClienteId" class="form-control" asp-items="@(ViewData["SegmentoClienteId"] as SelectList)">
                     <option value="0">Seleccione un segmento...</option>
                 </select>
@@ -114,9 +110,22 @@
 
         $(document).ready(function () {
             $("#TipoCliente").trigger("change");
+
+            // Cargar comunas si ya hay región seleccionada
+            var regionSeleccionada = $("#RegionId").val();
+            var comunaSeleccionada = '@Model?.ComunaId';
+            if (regionSeleccionada && regionSeleccionada != "0") {
+                $.getJSON('@Url.Action("GetComunas", "Clientes")', { regionId: regionSeleccionada }, function (comunas) {
+                    $("#ComunaId").empty().append('<option value="0">Seleccione una comuna...</option>');
+                    $.each(comunas, function (i, c) {
+                        var selected = c.comunaId == comunaSeleccionada ? "selected" : "";
+                        $("#ComunaId").append('<option value="' + c.comunaId + '" ' + selected + '>' + c.nombre + '</option>');
+                    });
+                });
+            }
         });
 
-        // Cargar comunas según región
+        // Cargar comunas según cambio de región
         $("#RegionId").change(function () {
             var regionId = $(this).val();
             $("#ComunaId").empty().append('<option value="0">Seleccione una comuna...</option>');
@@ -124,7 +133,7 @@
             if (regionId && regionId != "0") {
                 $.getJSON('@Url.Action("GetComunas", "Clientes")', { regionId: regionId }, function (comunas) {
                     $.each(comunas, function (i, c) {
-                        $("#ComunaId").append('<option value="' + parseInt(c.comunaId) + '">' + c.nombre + '</option>');
+                        $("#ComunaId").append('<option value="' + c.comunaId + '">' + c.nombre + '</option>');
                     });
                 });
             }

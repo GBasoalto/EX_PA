@@ -20,13 +20,13 @@
             <h2 class="ms-3 app-title">EcoMercado Austral</h2>
         </div>
 
-        <!-- USUARIO + DROPDOWN -->
-        <div class="dropdown me-3">
+        <!-- USUARIO + DROPDOWN + MODO OSCURO -->
+        <div class="d-flex align-items-center">
             @if (HttpContextAccessor?.HttpContext?.Session?.GetInt32("UsuarioId") != null)
             {
                 var nombre = HttpContextAccessor.HttpContext.Session.GetString("NombreCompleto");
 
-                <a class="btn user-button dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                <a class="btn user-button dropdown-toggle me-2" href="#" id="userDropdown" data-bs-toggle="dropdown">
                     @nombre
                 </a>
 
@@ -36,18 +36,19 @@
                     </li>
                 </ul>
             }
+            <button id="toggleDarkMode" class="btn btn-secondary">Modo oscuro</button>
         </div>
     </header>
 
     <!-- MAIN WRAPPER -->
-    <div class="main-wrapper d-flex">
+    <div class="main-wrapper">
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <ul class="menu">
                 <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
                 <li><a asp-controller="Usuarios" asp-action="Index">Gestionar Usuarios</a></li>
                 <li><a asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-                <li><a asp-controller="Ventas" asp-action="Index">Ventas</a></li>
+                <li><a asp-controller="SegmentoClientes" asp-action="Index">Segmento de clientes</a></li>
                 <li><a asp-controller="Reportes" asp-action="Index">Reportes</a></li>
             </ul>
         </aside>
@@ -68,29 +69,24 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
-    <!-- SweetAlert para mensajes de éxito y errores -->
     <script>
-        function deleteCliente(clienteId, clienteNombre) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: `Se eliminaría el cliente: ${clienteNombre} (ID: ${clienteId})`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Solo mostramos un mensaje por ahora
-                    Swal.fire(
-                        'Eliminado',
-                        `Se borraría el cliente con ID: ${clienteId}`,
-                        'success'
-                    );
-
-
         document.addEventListener("DOMContentLoaded", function () {
+            // Aplicar modo oscuro guardado
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Toggle modo oscuro
+            const toggle = document.getElementById('toggleDarkMode');
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    // Guardar preferencia en localStorage
+                    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+                });
+            }
+
+            // Mensajes SweetAlert
             var success = '@TempData["Success"]';
             var error = '@TempData["Error"]';
 

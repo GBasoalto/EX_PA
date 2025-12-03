@@ -19,11 +19,9 @@ namespace GestionClientesEcoMercadoAustral.Controllers
             return View();
         }
 
-        // POST: Login (AJAX)
         [HttpPost]
         public async Task<IActionResult> LoginAjax(string username, string password)
         {
-            // Validación manual
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 return Json(new { success = false, message = "Debe ingresar usuario y contraseña" });
@@ -37,12 +35,34 @@ namespace GestionClientesEcoMercadoAustral.Controllers
                 return Json(new { success = false, message = "Usuario o contraseña incorrecta" });
             }
 
+            // Verificar que el rol no sea nulo o vacío
+            if (string.IsNullOrEmpty(user.Rol))
+            {
+                return Json(new { success = false, message = "El usuario no tiene un rol asignado" });
+            }
+
             // Guardar datos en sesión
             HttpContext.Session.SetInt32("UsuarioId", user.UsuarioId);
             HttpContext.Session.SetString("NombreCompleto", $"{user.Nombre} {user.Apellido1}");
             HttpContext.Session.SetString("Rol", user.Rol);
 
-            return Json(new { success = true });
+            // Redirigir según rol
+            string redirectUrl;
+            if (user.Rol == "Administrador")
+            {
+                redirectUrl = Url.Action("Index", "Home");
+            }
+            else if (user.Rol == "Vendedor")
+            {
+                redirectUrl = Url.Action("DashboardVendedor", "Home");
+            }
+            else
+            {
+                // Si hay otro rol, podrías manejarlo aquí, por ejemplo, redirigir a una vista por defecto
+                redirectUrl = Url.Action("Index", "Home");
+            }
+
+            return Json(new { success = true, redirectUrl });
         }
 
         // Logout

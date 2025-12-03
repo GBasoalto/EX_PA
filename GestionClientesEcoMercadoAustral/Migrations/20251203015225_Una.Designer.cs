@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionClientesEcoMercadoAustral.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251202201713_Una")]
+    [Migration("20251203015225_Una")]
     partial class Una
     {
         /// <inheritdoc />
@@ -33,11 +33,9 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
 
                     b.Property<string>("Apellido1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Apellido2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ComunaId")
@@ -78,6 +76,43 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Clientes");
+
+                    b.HasData(
+                        new
+                        {
+                            ClienteId = 1,
+                            Apellido1 = "Pérez",
+                            Apellido2 = "González",
+                            ComunaId = 1,
+                            Direccion = "Calle Falsa 123",
+                            Nombre = "Juan",
+                            Rut = "12345678-9",
+                            SegmentoClienteId = 1,
+                            TipoCliente = "Persona Natural",
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            ClienteId = 2,
+                            ComunaId = 2,
+                            Direccion = "Avenida Siempre Viva 456",
+                            Nombre = "Empresa XYZ",
+                            Rut = "98765432-1",
+                            SegmentoClienteId = 2,
+                            TipoCliente = "Empresa",
+                            UsuarioId = 2
+                        },
+                        new
+                        {
+                            ClienteId = 3,
+                            ComunaId = 2,
+                            Direccion = "Cumpeo",
+                            Nombre = "El pollo farsante",
+                            Rut = "1245789-4",
+                            SegmentoClienteId = 3,
+                            TipoCliente = "Empresa",
+                            UsuarioId = 2
+                        });
                 });
 
             modelBuilder.Entity("GestionClientesEcoMercadoAustral.Models.Comuna", b =>
@@ -2205,6 +2240,17 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                             Rol = "Vendedor",
                             Rut = "12.345.678-9",
                             Username = "user"
+                        },
+                        new
+                        {
+                            UsuarioId = 3,
+                            Apellido1 = "Morales",
+                            Apellido2 = "Gajardo",
+                            Nombre = "Johanna",
+                            Password = "user123",
+                            Rol = "Vendedor",
+                            Rut = "9.876.543-1",
+                            Username = "JMorales"
                         });
                 });
 

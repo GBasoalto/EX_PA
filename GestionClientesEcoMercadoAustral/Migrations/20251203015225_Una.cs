@@ -89,8 +89,8 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     Rut = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TipoCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComunaId = table.Column<int>(type: "int", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
@@ -160,7 +160,8 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 values: new object[,]
                 {
                     { 1, "Basoalto", "Gallegos", "Gonzalo", "admin123", "Administrador", "15.907.638-5", "admin" },
-                    { 2, "Perez", "Lopez", "Juan", "user123", "Vendedor", "12.345.678-9", "user" }
+                    { 2, "Perez", "Lopez", "Juan", "user123", "Vendedor", "12.345.678-9", "user" },
+                    { 3, "Morales", "Gajardo", "Johanna", "user123", "Vendedor", "9.876.543-1", "JMorales" }
                 });
 
             migrationBuilder.InsertData(
@@ -477,6 +478,16 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                     { 321, "Timaukel", 16 },
                     { 322, "Cabo de Hornos", 16 },
                     { 323, "Antártica", 16 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Clientes",
+                columns: new[] { "ClienteId", "Apellido1", "Apellido2", "ComunaId", "Direccion", "Nombre", "Rut", "SegmentoClienteId", "TipoCliente", "UsuarioId" },
+                values: new object[,]
+                {
+                    { 1, "Pérez", "González", 1, "Calle Falsa 123", "Juan", "12345678-9", 1, "Persona Natural", 1 },
+                    { 2, null, null, 2, "Avenida Siempre Viva 456", "Empresa XYZ", "98765432-1", 2, "Empresa", 2 },
+                    { 3, null, null, 2, "Cumpeo", "El pollo farsante", "1245789-4", 3, "Empresa", 2 }
                 });
 
             migrationBuilder.CreateIndex(

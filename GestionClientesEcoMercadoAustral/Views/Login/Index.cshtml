@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login - Empresa</title>
+    <title>Login - Eco Mercado Austral</title>
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/login.css" rel="stylesheet" />
@@ -29,11 +29,12 @@
         <h3 class="text-center mb-4">Iniciar Sesión</h3>
 
         <form id="loginForm">
+            @Html.AntiForgeryToken() <!-- Agregar token CSRF -->
             <div class="mb-3">
-                <input name="username" class="form-control" placeholder="Usuario" />
+                <input name="username" class="form-control" placeholder="Usuario" required />
             </div>
             <div class="mb-3">
-                <input name="password" type="password" class="form-control" placeholder="Contraseña" />
+                <input name="password" type="password" class="form-control" placeholder="Contraseña" required />
             </div>
             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
         </form>
@@ -49,23 +50,43 @@
             $('#loginForm').submit(function(e) {
                 e.preventDefault(); // Evita recargar la página
 
+                // Limpiar mensaje de error anterior
+                $('#errorMessage').text('');
+
+                // Mostrar carga (opcional)
+                var submitBtn = $(this).find('button[type="submit"]');
+                var originalText = submitBtn.text();
+                submitBtn.text('Ingresando...').prop('disabled', true);
+
                 $.ajax({
                     url: '@Url.Action("LoginAjax", "Login")',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
                         if (response.success) {
-                            // Redirige al home si login correcto
-                            window.location.href = '/Home/Index';
+                            // IMPORTANTE: Usar la redirectUrl que devuelve el servidor
+                            window.location.href = response.redirectUrl;
                         } else {
                             // Muestra mensaje de error
                             $('#errorMessage').text(response.message);
                         }
                     },
-                    error: function() {
-                        $('#errorMessage').text("Ocurrió un error al intentar iniciar sesión");
+                    error: function(xhr, status, error) {
+                        $('#errorMessage').text("Error de conexión. Intente nuevamente.");
+                        console.error("Error en login:", error);
+                    },
+                    complete: function() {
+                        // Restaurar botón
+                        submitBtn.text(originalText).prop('disabled', false);
                     }
                 });
+            });
+
+            // Enter key submit
+            $('input').keypress(function(e) {
+                if (e.which == 13) {
+                    $('#loginForm').submit();
+                }
             });
         });
     </script>

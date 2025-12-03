@@ -1,0 +1,122 @@
+﻿@model IEnumerable<GestionClientesEcoMercadoAustral.Models.SegmentoCliente>
+
+@{
+    ViewData["Title"] = "Segmentos de Cliente";
+}
+
+<h1 class="mb-4">Segmentos de Cliente</h1>
+
+<div class="mb-3">
+    <a class="btn btn-success" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Crear Segmento
+    </a>
+</div>
+
+<table class="table table-striped table-bordered align-middle text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@item.NombreSegmento</td>
+            <td>@item.Descripcion</td>
+
+            <td>
+                @if (item.Estado == "Vigente")
+                {
+                    <span class="badge bg-success">Vigente</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">No Vigente</span>
+                }
+            </td>
+
+            
+
+            <td>
+    <div class="d-flex justify-content-center gap-2">
+
+        <a class="btn btn-sm px-3" 
+           style="background-color:#d4a017; color:white; border:none;"
+           asp-action="Edit" asp-route-id="@item.SegmentoClienteId">
+            <i class="bi bi-pencil-square"></i> Editar
+        </a>
+
+        <button class="btn btn-sm px-3 btnDelete"
+                style="background-color:#b22222; color:white; border:none;"
+                data-id="@item.SegmentoClienteId"
+                data-nombre="@item.NombreSegmento">
+            <i class="bi bi-trash"></i> Eliminar
+        </button>
+
+    </div>
+</td>
+
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.querySelectorAll(".btnDelete").forEach(btn => {
+            btn.addEventListener("click", function () {
+
+                const id = this.getAttribute("data-id");
+                const nombre = this.getAttribute("data-nombre");
+
+                Swal.fire({
+                    title: "¿Eliminar segmento?",
+                    text: "¿Deseas eliminar el segmento: " + nombre + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        fetch('/SegmentoClientes/Delete/' + id, {
+                            method: 'POST',
+                            headers: { 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Eliminado",
+                                    text: "El segmento fue eliminado correctamente",
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(() => location.reload());
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "No se pudo eliminar",
+                                    text: data.message
+                                });
+                            }
+
+                        });
+                    }
+
+                });
+            });
+        });
+    </script>
+}
