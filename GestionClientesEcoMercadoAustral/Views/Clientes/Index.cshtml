@@ -13,7 +13,7 @@
     </a>
 </div>
 
-<table class="table table-striped table-hover align-middle">
+<table id="tablaClientes" class="table table-striped table-hover align-middle">
     <thead class="table-dark">
         <tr>
             <th>RUT</th>
@@ -52,14 +52,35 @@
     </tbody>
 </table>
 
-@* Formulario oculto para eliminación segura *@
+@* Formulario oculto para eliminación *@
 <form id="deleteForm" method="post" style="display:none;">
     @Html.AntiForgeryToken()
 </form>
 
 @section Scripts {
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        // Inicializar DataTable
+        $(document).ready(function () {
+            $('#tablaClientes').DataTable({
+                responsive: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+
+        // Confirmación de eliminación
         function confirmDelete(clienteId) {
             Swal.fire({
                 title: '¿Estás seguro?',

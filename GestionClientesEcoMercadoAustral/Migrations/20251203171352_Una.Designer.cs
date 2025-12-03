@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionClientesEcoMercadoAustral.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251203015225_Una")]
+    [Migration("20251203171352_Una")]
     partial class Una
     {
         /// <inheritdoc />

@@ -29,13 +29,18 @@
         <h3 class="text-center mb-4">Iniciar Sesión</h3>
 
         <form id="loginForm">
-            @Html.AntiForgeryToken() <!-- Agregar token CSRF -->
+            @Html.AntiForgeryToken()
+
             <div class="mb-3">
+                <label class="form-label fw-bold">Ingrese su usuario</label>
                 <input name="username" class="form-control" placeholder="Usuario" required />
             </div>
+
             <div class="mb-3">
+                <label class="form-label fw-bold">Ingrese su contraseña</label>
                 <input name="password" type="password" class="form-control" placeholder="Contraseña" required />
             </div>
+
             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
         </form>
 
@@ -46,14 +51,12 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#loginForm').submit(function(e) {
-                e.preventDefault(); // Evita recargar la página
+        $(document).ready(function () {
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
 
-                // Limpiar mensaje de error anterior
                 $('#errorMessage').text('');
 
-                // Mostrar carga (opcional)
                 var submitBtn = $(this).find('button[type="submit"]');
                 var originalText = submitBtn.text();
                 submitBtn.text('Ingresando...').prop('disabled', true);
@@ -62,28 +65,24 @@
                     url: '@Url.Action("LoginAjax", "Login")',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
-                            // IMPORTANTE: Usar la redirectUrl que devuelve el servidor
                             window.location.href = response.redirectUrl;
                         } else {
-                            // Muestra mensaje de error
                             $('#errorMessage').text(response.message);
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function () {
                         $('#errorMessage').text("Error de conexión. Intente nuevamente.");
-                        console.error("Error en login:", error);
                     },
-                    complete: function() {
-                        // Restaurar botón
+                    complete: function () {
                         submitBtn.text(originalText).prop('disabled', false);
                     }
                 });
             });
 
-            // Enter key submit
-            $('input').keypress(function(e) {
+            // Enviar con Enter
+            $('input').keypress(function (e) {
                 if (e.which == 13) {
                     $('#loginForm').submit();
                 }
