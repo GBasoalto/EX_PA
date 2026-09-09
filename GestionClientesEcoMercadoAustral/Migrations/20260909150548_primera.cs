@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace GestionClientesEcoMercadoAustral.Migrations
 {
     /// <inheritdoc />
-    public partial class Una : Migration
+    public partial class primera : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +17,10 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "Regiones",
                 columns: table => new
                 {
-                    RegionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Codigo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    RegionId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Codigo = table.Column<string>(type: "text", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,11 +31,11 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "SegmentosCliente",
                 columns: table => new
                 {
-                    SegmentoClienteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NombreSegmento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SegmentoClienteId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NombreSegmento = table.Column<string>(type: "text", nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: false),
+                    Estado = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,15 +46,15 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    UsuarioId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rut = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Apellido1 = table.Column<string>(type: "text", nullable: false),
+                    Apellido2 = table.Column<string>(type: "text", nullable: false),
+                    Rut = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Rol = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,10 +65,10 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "Comunas",
                 columns: table => new
                 {
-                    ComunaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegionId = table.Column<int>(type: "int", nullable: false)
+                    ComunaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    RegionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,17 +85,17 @@ namespace GestionClientesEcoMercadoAustral.Migrations
                 name: "Clientes",
                 columns: table => new
                 {
-                    ClienteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rut = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Apellido2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ComunaId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    SegmentoClienteId = table.Column<int>(type: "int", nullable: false)
+                    ClienteId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Rut = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    TipoCliente = table.Column<string>(type: "text", nullable: false),
+                    Apellido1 = table.Column<string>(type: "text", nullable: true),
+                    Apellido2 = table.Column<string>(type: "text", nullable: true),
+                    Direccion = table.Column<string>(type: "text", nullable: false),
+                    ComunaId = table.Column<int>(type: "integer", nullable: false),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false),
+                    SegmentoClienteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
